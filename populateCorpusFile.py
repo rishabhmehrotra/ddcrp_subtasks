@@ -54,7 +54,7 @@ while i>=0:
 			for (k,v) in querymap.items():
 				if k==0:
 					continue
-				oFile.write(str(k)+":"+str(v)+"\t")
+				oFile.write(str(k)+":"+str(v)+" ")
 			oFile.write("\n")
 	oFile.close()
 	i-=1

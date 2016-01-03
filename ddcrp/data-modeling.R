@@ -1,4 +1,8 @@
+#install.packages("lda")
 library(lda)
+library('Matrix')
+source("ddcrp-inference.R")
+
 
 doc.lhood <- function(docs, lambda)
 {
@@ -101,6 +105,7 @@ corpus.to.matrix <- function(corpus, vocab, n=length(corpus))
 
 network.example <- function ()
 {
+  print ("msqqq")
   docs <- read.documents("~/slap/data/cora/documents")
   voc <- readLines("~/slap/data/cora/lexicon")
   adj <- read.links("~/slap/data/cora/links")
@@ -125,13 +130,21 @@ network.example <- function ()
 
 sequential.example <- function ()
 {
+  print("read it0")
   library(lda)
-
-  docs <- read.documents("~/data/science/data/sci90/sci90-mult.dat")
-  voc <- readLines("~/data/science/data/sci90/sci90-vocab.dat")
-  dat <- corpus.to.matrix(docs[1:500], voc)
-
-  res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=seq.dist, alpha=1,
-                     decay.fn=window.decay(100),
+  print("read it1")
+  docs <- read.documents("../data/0.corpus.txt")
+  #docs <- read.documents("../data/sci90-mult.dat")
+  #print(docs)
+  print("read it2")
+  voc <- readLines("../data/0.vocab.txt")
+  #voc <- readLines("../data/sci90-vocab.dat")
+  print("read it3")
+  dat <- corpus.to.matrix(docs[1:100], voc)
+  print("read it4")
+  res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=euclidean.dist, alpha=1,
+                     decay.fn=exp.decay(0.5),
                      doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary)
+  print("read it5")
+  print (res)
 }
