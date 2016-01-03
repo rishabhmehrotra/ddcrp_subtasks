@@ -130,20 +130,23 @@ network.example <- function ()
 
 sequential.example <- function ()
 {
-  print("read it0")
+  print("Starting script")
   library(lda)
-  print("read it1")
-  docs <- read.documents("../data/0.corpus.txt")
+  print("Successfully read library LDA")
+  docs <- read.documents("../data/1.corpus.txt")
   #docs <- read.documents("../data/sci90-mult.dat")
   #print(docs)
-  print("read it2")
+  print("Successfully read documents")
   voc <- readLines("../data/0.vocab.txt")
   #voc <- readLines("../data/sci90-vocab.dat")
-  print("read it3")
+  print("Successfully read vocab")
   dat <- corpus.to.matrix(docs[1:100], voc)
-  print("read it4")
-  res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=euclidean.dist, alpha=1,
-                     decay.fn=exp.decay(0.5),
+  print("Successfully converted corpus to matrix")
+  mat = read.table('../data/1.distances.txt')
+  mat = 5-mat
+  print("Successfully read distances table")
+  res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=matrix.dist.fn(mat), alpha=1,
+                     decay.fn=window.decay(3),
                      doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary)
   print("read it5")
   print (res)

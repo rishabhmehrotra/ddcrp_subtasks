@@ -30,7 +30,8 @@ while i>=0:
 	for (k,v) in vocab.items():
 		if len(k)>15:
 			continue
-		oFile.write(k+"\t"+str(vocab[k])+"\n")
+		#oFile.write(k+"\t"+str(vocab[k])+"\n")
+		oFile.write(k+"\n")
 	oFile.close()
 	i-=1
 	vocab.clear()
