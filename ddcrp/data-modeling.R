@@ -133,21 +133,38 @@ sequential.example <- function ()
   print("Starting script")
   library(lda)
   print("Successfully read library LDA")
+  #docs <- read.documents("../data/allTasks.corpus.txt")
   docs <- read.documents("../data/1.corpus.txt")
   #docs <- read.documents("../data/sci90-mult.dat")
   #print(docs)
   print("Successfully read documents")
-  voc <- readLines("../data/0.vocab.txt")
+  #voc <- readLines("../data/allTasks.vocab.txt")
+  voc <- readLines("../data/1.vocab.txt")
   #voc <- readLines("../data/sci90-vocab.dat")
   print("Successfully read vocab")
-  dat <- corpus.to.matrix(docs[1:100], voc)
+  dat <- corpus.to.matrix(docs[0:100], voc)
   print("Successfully converted corpus to matrix")
+  #mat = read.table('../data/allTasks.distances.txt')
   mat = read.table('../data/1.distances.txt')
-  mat = 5-mat
+  #mat = 5-mat
+  #mat = 1+mat
+  #mat = mat/apply(mat,1,max)
+  #mat[is.nan(mat)] <- Inf
+  #rapply( mat, f=function(x) ifelse(is.nan(x),Inf,x), how="replace" )
+  #mat = 100*(1-mat)
+  #mat = 4-(4*mat)
+  print (mat)
   print("Successfully read distances table")
-  res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=matrix.dist.fn(mat), alpha=1,
-                     decay.fn=window.decay(3),
-                     doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary)
-  print("read it5")
+  res <- ddcrp.gibbs(dat=dat[0:100,], dist.fn=matrix.dist.fn(mat), alpha=0.1,
+    #res <- ddcrp.gibbs(dat=dat[1:24,], dist.fn=seq.dist, alpha=1,
+                     decay.fn=window.decay2(20),
+                     doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary,clust.traj=TRUE, cust.traj=TRUE)
+  #res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=seq.dist, alpha=1,
+   #                  decay.fn=window.decay(100),
+    #                 doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary)
+  print("Successfully completed sampling")
   print (res)
+  print (dim(res$map.state))
+  clusters = res$map.state
+  write.table(clusters, file="../data/1.cluster.txt", row.names=FALSE, col.names=FALSE)
 }

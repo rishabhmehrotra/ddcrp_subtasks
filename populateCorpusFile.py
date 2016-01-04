@@ -6,9 +6,10 @@ import pickle
 print "hello"
 vocab = {"":0}
 wordid = {"":0}
-i = 6
+i = 0
 while i>=0:
-	filestr = "data/"+str(i)+".allQueries.freq.nUsers.txt"
+	#filestr = "data/"+str(i)+".allQueries.freq.nUsers.txt"
+	filestr = "data/allTasks.queries.freq.nUsers.txt"
 	wid = 1
 	with open(filestr) as infile:
 		for line in infile:
@@ -25,7 +26,8 @@ while i>=0:
 					vocab[w] = 1
 					wordid[w] = wid
 					wid+=1
-	fileout = "data/"+str(i)+".wordIds.txt"
+	#fileout = "data/"+str(i)+".wordIds.txt"
+	fileout = "data/allTasks.wordIds.txt"
 	oFile = open(fileout, 'w')
 	for (k,v) in wordid.items():
 		if len(k)>15:
@@ -33,7 +35,8 @@ while i>=0:
 		oFile.write(k+"\t"+str(v)+"\n")
 	oFile.close()
 
-	fileout = "data/"+str(i)+".corpus.txt"
+	#fileout = "data/"+str(i)+".corpus.txt"
+	fileout = "data/allTasks.corpus.txt"
 	oFile = open(fileout, 'w')
 	with open(filestr) as infile:
 		for line in infile:

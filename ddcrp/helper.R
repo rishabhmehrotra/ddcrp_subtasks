@@ -15,13 +15,18 @@ harmonic.mean <- function(x)
 
 exch.dirichlet.lhood <- function(counts, hyper)
 {
+  print ("inside likelihood calcultion function")
+  print(dim(counts))
   k <- length(counts)
   idx <- counts > 0
+  print (k)
+  print("printing counts idx")
+  print (counts[idx])
   v <- (lgamma(k*hyper) - sum(idx)*lgamma(hyper) +
         sum(lgamma(hyper+counts[idx])) - lgamma(sum(counts[idx])+k*hyper))
 
-
-  v
+#v <- 0.1
+ v 
 }
 
 
@@ -115,4 +120,39 @@ safelog <- function (x) {
     safelog.f(x)
   else
     sapply(x, safelog.f)
+}
+
+
+# returns customers that are connected to i, directly or indirectly
+
+connections <- function(i, links)
+{
+  visited <- c()
+  to.visit <- c(i)
+  while (length(to.visit) > 0) {
+    curr <- to.visit[1]
+    visited <- c(visited, curr)
+    to.visit <- to.visit[-1]
+    pointers <- which(links == curr)
+    for (p in pointers) {
+      if (!(p %in% visited))
+        to.visit <- c(to.visit, p)
+    }
+  }
+  visited
+}
+
+
+# example ddcrp summary functions
+
+ncomp.summary <- function(dat, iter, state, lhood, alpha)
+{
+  c(iter = iter, ncomp = length(unique(state$cluster)))
+}
+
+crp.score.summary <- function(dat, iter, state, lhood, alpha)
+{
+  c(iter = iter,
+    ncomp = length(unique(state$cluster)),
+    crp.score = (crp.log.prior(alpha, state$cluster) + sum(lhood)))
 }

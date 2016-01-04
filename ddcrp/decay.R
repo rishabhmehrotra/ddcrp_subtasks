@@ -4,6 +4,11 @@
 window.decay <- function(w)
   function (x) (as.integer(x <= w))
 
+window.decay2 <- function(w)
+  {
+    function (x) if(x<=w) {(5-x)} else {0}
+  }
+
 logistic.decay <- function(a, b=1)
   function (x) logistic((-x+a)/b)
 

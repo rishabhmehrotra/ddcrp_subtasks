@@ -17,11 +17,12 @@ def distance(str1, str2):
 	common = set(words1) & set(words2)
 	return len(common)
 
-ii = 6
+ii = 1
 while ii>0:
 	c=0;
 	queries = []
 	filee = "data/"+str(ii)+".allQueries.freq.nUsers.txt"
+	#filee = "data/allTasks.queries.freq.nUsers.txt"
 	with open(filee) as infile:
 		for line in infile:
 			c+=1
@@ -33,24 +34,47 @@ while ii>0:
 
 	print len(queries)
 	size = len(queries)
-	distances = np.full((size,size),1000)
-	print distances
+	distances = np.full((size,size),float(-1))
+	#print distances
 	print "starting distance computations"
 	for i in range(0,size):
 		if i%100 == 0:
 			print i
 		q1 = queries[i]
 		distances[i][i]=0
-		for j in range(i+1,size):
+		#for j in range(i+1,size):
+		for j in range(0,i):
 			q2 = queries[j]
 			dist = distance(q1,q2)
 			distances[i][j]=dist
 			distances[j][i]=dist
 			#if i%100==0 and j%100==0:
 			#	print "str1: %s\nstr2: %s\ndist= %d"%(q1,q2,dist)
+	
+	for i in range(0, size):
+		if i%100 == 0:
+			print i
+		maxd = 0
+		for j in range(0,i):
+			if distances[i][j]>maxd and distances[i][j]<10000:
+				maxd = distances[i][j]
+				#print ("distance = %f"%distances[i][j])
+			#print ("maxd = %f"%maxd)
+		for j in range(0,i):
+			if distances[i][j]<10000:
+				if maxd<10000 and maxd>0:
+					#print("111111")
+					distances[i][j] = 100*(1-distances[i][j]/maxd)
+					distances[j][i] = distances[i][j]
+				if maxd == 0:
+					#print("222222")
+					distances[i][j] = 200
+					distances[j][i] = 200
+	
 	print "ending distance computations"
 	i=0
 	fileout = "data/"+str(ii)+".distances.txt"
+	#fileout = "data/allTasks.distances.txt"
 	oFile = open(fileout, 'w')
 	print "size of matrix: %d"%size
 	for i in range(0,size):
