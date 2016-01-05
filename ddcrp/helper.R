@@ -15,13 +15,13 @@ harmonic.mean <- function(x)
 
 exch.dirichlet.lhood <- function(counts, hyper)
 {
-  print ("inside likelihood calcultion function")
-  print(dim(counts))
+  #print ("inside likelihood calcultion function")
+  #print(dim(counts))
   k <- length(counts)
   idx <- counts > 0
-  print (k)
-  print("printing counts idx")
-  print (counts[idx])
+  #print (k)
+  #print("printing counts idx")
+  #print (counts[idx])
   v <- (lgamma(k*hyper) - sum(idx)*lgamma(hyper) +
         sum(lgamma(hyper+counts[idx])) - lgamma(sum(counts[idx])+k*hyper))
 

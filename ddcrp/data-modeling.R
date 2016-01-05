@@ -142,7 +142,7 @@ sequential.example <- function ()
   voc <- readLines("../data/1.vocab.txt")
   #voc <- readLines("../data/sci90-vocab.dat")
   print("Successfully read vocab")
-  dat <- corpus.to.matrix(docs[0:100], voc)
+  dat <- corpus.to.matrix(docs[0:1000], voc)
   print("Successfully converted corpus to matrix")
   #mat = read.table('../data/allTasks.distances.txt')
   mat = read.table('../data/1.distances.txt')
@@ -153,12 +153,12 @@ sequential.example <- function ()
   #rapply( mat, f=function(x) ifelse(is.nan(x),Inf,x), how="replace" )
   #mat = 100*(1-mat)
   #mat = 4-(4*mat)
-  print (mat)
+  #print (mat)
   print("Successfully read distances table")
-  res <- ddcrp.gibbs(dat=dat[0:100,], dist.fn=matrix.dist.fn(mat), alpha=0.1,
+  res <- ddcrp.gibbs(dat=dat[0:1000,], dist.fn=matrix.dist.fn(mat), alpha=0,
     #res <- ddcrp.gibbs(dat=dat[1:24,], dist.fn=seq.dist, alpha=1,
                      decay.fn=window.decay2(20),
-                     doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary,clust.traj=TRUE, cust.traj=TRUE)
+                     doc.lhood.fn(0.5), 1, summary.fn = ncomp.summary,clust.traj=TRUE, cust.traj=TRUE)
   #res <- ddcrp.gibbs(dat=dat[1:100,], dist.fn=seq.dist, alpha=1,
    #                  decay.fn=window.decay(100),
     #                 doc.lhood.fn(0.5), 5, summary.fn = ncomp.summary)

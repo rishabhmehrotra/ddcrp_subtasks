@@ -64,6 +64,7 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
 
       if (old.customer != i)
       {
+        print("if satisfied")
         ### !!! do we need to use "idx"
         old.idx <- st[which(st$cluster==old.cluster),"idx"]
         print ("printing old.idx")
@@ -79,12 +80,13 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
       }
       else
       {
+        print("else satisfied")
         lhood[char(old.cluster)] <- 0
       }
 
       ### compute the log prior
       ### (this should be precomputed---see opt.ddcrp.gibbs below)
-
+      print("before prior")
       # now this is considering all possibilities of new links - the replacement links for the i-th variable
       log.prior <- sapply(1:ndata,
                           function (j) safelog(decay.fn(dist.fn(i, j))))
@@ -92,11 +94,22 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
                           #function (j) safelog(dist.fn(i, j)+1))
       #print ("printing log prior")
       #print (i)
+      #print("printing distances")
       #dist.values <- sapply(1:ndata, function (j) dist.fn(i, j))
       #print (dist.values)
+      #print(length(dist.values))
+      #print(length(log.prior))
+      #print("after prior")
       log.prior[i] <- log(alpha)
+      #print("after prior2")
+      #print(log.prior[i])
+      #print(log.prior)
+      #rapply( log.prior, f=function(x) ifelse(is.nan(x),-100.00,x), how="replace" )
+      log.prior[is.nan(log.prior)] <- -100.00
       log.prior <- log.prior - log.sum(log.prior)#equivalent to num/sum_all_possible_num
+      #print("after prior3")
       cand.links <- which(log.prior > log.prior.thresh)
+      #print("after cand.links")
 
       ### compute the likelihood of data point i (and its connectors)
       ### with all other tables (!!! do we need to use "idx"?)
@@ -118,10 +131,10 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
    
       log.prob <-
         log.prior[cand.links] #+
-          #sapply(cand.links,
-           #      function (j) {
-            #       c.j <- char(st$cluster[j])
-             #      sum.old.lhood - old.lhood[c.j] + new.lhood[c.j] })
+          sapply(cand.links,
+                 function (j) {
+                   c.j <- char(st$cluster[j])
+                   sum.old.lhood - old.lhood[c.j] + new.lhood[c.j] })
 
       ### sample from the distribution
 
@@ -130,6 +143,9 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
         st$customer[i] <- cand.links[1]
       else
         st$customer[i] <- sample(cand.links, 1, prob=prob)
+      msg(sprintf(" %d %d", i, st$customer[i]))
+      print("distance:")
+      print(dist.fn(i, st$customer[i]))
 
       ### update the score with the prior and update the clusters
 
