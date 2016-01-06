@@ -109,6 +109,7 @@ colsum <- function (x)
 safelog <- function (x) {
 
   safelog.f <- function (x)
+      #print (x)
       if (x == Inf)
         Inf
       else if (x == 0)

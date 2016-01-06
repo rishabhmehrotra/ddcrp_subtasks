@@ -86,26 +86,31 @@ ddcrp.gibbs <- function(dat, alpha, dist.fn, decay.fn, lhood.fn,
 
       ### compute the log prior
       ### (this should be precomputed---see opt.ddcrp.gibbs below)
-      print("before prior")
+      #print("before prior")
       # now this is considering all possibilities of new links - the replacement links for the i-th variable
+      #print("printing distances")
+      #dist.values <- sapply(1:ndata, function (j) dist.fn(i, j))
+      #print (dist.values)
       log.prior <- sapply(1:ndata,
                           function (j) safelog(decay.fn(dist.fn(i, j))))
                           #function (j) decay.fn(dist.fn(i, j)))
                           #function (j) safelog(dist.fn(i, j)+1))
+      
       #print ("printing log prior")
       #print (i)
-      #print("printing distances")
-      #dist.values <- sapply(1:ndata, function (j) dist.fn(i, j))
-      #print (dist.values)
+      
       #print(length(dist.values))
       #print(length(log.prior))
       #print("after prior")
+      
       log.prior[i] <- log(alpha)
+      
       #print("after prior2")
       #print(log.prior[i])
       #print(log.prior)
       #rapply( log.prior, f=function(x) ifelse(is.nan(x),-100.00,x), how="replace" )
-      log.prior[is.nan(log.prior)] <- -100.00
+      #log.prior[is.nan(log.prior)] <- -100.00
+      
       log.prior <- log.prior - log.sum(log.prior)#equivalent to num/sum_all_possible_num
       #print("after prior3")
       cand.links <- which(log.prior > log.prior.thresh)

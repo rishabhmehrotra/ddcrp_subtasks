@@ -2,7 +2,7 @@
 # decay functions and distance functions
 
 window.decay <- function(w)
-  function (x) (as.integer(x <= w))
+  {function (x) (as.integer(x <= w))}
 
 window.decay2 <- function(w)
   {
@@ -54,7 +54,7 @@ input.based.dist.fn <- function(input, dist.fn)
 
 matrix.dist.fn <- function(dist.matrix)
 {
-  function (i,j) dist.matrix[i,j]
+  function (i,j) {if (is.nan(dist.matrix[i,j])) {100} else {dist.matrix[i,j]}}
 }
 
 link.dist.fn <- function(adj)
