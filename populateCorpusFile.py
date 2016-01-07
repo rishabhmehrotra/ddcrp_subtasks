@@ -9,7 +9,8 @@ wordid = {"":0}
 i = 0
 while i>=0:
 	#filestr = "data/"+str(i)+".allQueries.freq.nUsers.txt"
-	filestr = "data/allTasks.queries.freq.nUsers.txt"
+	#filestr = "data/allTasks.queries.freq.nUsers.txt"
+	filestr = "data/0.queries.txt"
 	wid = 1
 	with open(filestr) as infile:
 		for line in infile:
@@ -27,7 +28,8 @@ while i>=0:
 					wordid[w] = wid
 					wid+=1
 	#fileout = "data/"+str(i)+".wordIds.txt"
-	fileout = "data/allTasks.wordIds.txt"
+	#fileout = "data/allTasks.wordIds.txt"
+	fileout = "data/0.new.wordIds.txt"
 	oFile = open(fileout, 'w')
 	for (k,v) in wordid.items():
 		if len(k)>15:
@@ -36,7 +38,8 @@ while i>=0:
 	oFile.close()
 
 	#fileout = "data/"+str(i)+".corpus.txt"
-	fileout = "data/allTasks.corpus.txt"
+	#fileout = "data/allTasks.corpus.txt"
+	fileout = "data/0.new.corpus.txt"
 	oFile = open(fileout, 'w')
 	with open(filestr) as infile:
 		for line in infile:

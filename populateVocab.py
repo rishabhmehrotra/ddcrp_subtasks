@@ -8,7 +8,8 @@ vocab = {"":0}
 i = 0
 while i>=0:
 	#filestr = "data/"+str(i)+".allQueries.freq.nUsers.txt"
-	filestr = "data/allTasks.queries.freq.nUsers.txt"
+	#filestr = "data/allTasks.queries.freq.nUsers.txt"
+	filestr = "data/0.queries.txt"
 	with open(filestr) as infile:
 		for line in infile:
 			line1 = line.split('\t')[0]
@@ -27,7 +28,8 @@ while i>=0:
 					vocab[w] = 1
 	print "vocab size: %d"%len(vocab)
 	#fileout = "data/"+str(i)+".vocab.txt"
-	fileout = "data/allTasks.vocab.txt"
+	#fileout = "data/allTasks.vocab.txt"
+	fileout = "data/0.new.vocab.txt"
 	oFile = open(fileout, 'w')
 	for (k,v) in vocab.items():
 		if len(k)>15:

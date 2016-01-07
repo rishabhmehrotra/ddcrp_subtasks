@@ -12,20 +12,21 @@ from scipy import spatial
 
 print sklearn.__version__
 
-#model = gensim.models.word2vec.Word2Vec.load_word2vec_format('../entity/GoogleNews-vectors-negative300.bin', binary=True)
+model = gensim.models.word2vec.Word2Vec.load_word2vec_format('../entity/GoogleNews-vectors-negative300.bin', binary=True)
 
 def distance(e1, e2):
 	return spatial.distance.cosine(e1,e2)
 
 
-ii = 6
+ii = 0
 while ii>=0:
 	print (ii)
 	c=0;
 	queries = []
 	embeddings = []
-	filee = "data/"+str(ii)+".allQueries.freq.nUsers.txt"
+	#filee = "data/"+str(ii)+".allQueries.freq.nUsers.txt"
 	#filee = "data/allTasks.queries.freq.nUsers.txt"
+	filee = "data/0.queries.txt"
 	with open(filee) as infile:
 		for line in infile:
 			c+=1
@@ -35,7 +36,7 @@ while ii>=0:
 			q = q.translate(None, string.punctuation)
 			queries.append(q)
 	#now for each query, get the word2vec representation
-	'''
+	
 	#this part uses the word2vec embeddings to find representations of the queries & saves it to file
 	for q in queries:
 		text = q.translate(None, string.punctuation)
@@ -57,12 +58,13 @@ while ii>=0:
 			tt-=1
 		vec = [v/tt for v in vec]
 		embeddings.append(vec)
-	'''
-	file2 = "data/embeddings/"+str(ii)+".vectors.txt"
-	'''
+	
+	#file2 = "data/embeddings/"+str(ii)+".vectors.txt"
+	file2 = "data/embeddings/0.new.vectors.txt"
+	
 	with open(file2,'w') as myfile:
 		json.dump(embeddings,myfile)
-	'''
+	
 	# this part re-uses the query word2vec embeddings by loading them from the file and computes Q-Q distances & saves it to file
 	with open(file2,'r') as infile:
 		embeddings = json.load(infile)
@@ -87,7 +89,8 @@ while ii>=0:
 			distances[i][j]=dist
 			distances[j][i]=dist
 	print "ending distance computations"
-	fileout = "data/"+str(ii)+".distances.embeddings.txt"
+	#fileout = "data/"+str(ii)+".distances.embeddings.txt"
+	fileout = "data/0.new.distances.embeddings.txt"
 	oFile = open(fileout, 'w')
 	print "size of matrix: %d"%size
 	for i in range(0,size):

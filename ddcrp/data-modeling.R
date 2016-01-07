@@ -134,19 +134,22 @@ sequential.example <- function ()
   library(lda)
   print("Successfully read library LDA")
   #docs <- read.documents("../data/allTasks.corpus.txt")
-  docs <- read.documents("../data/1.corpus.txt")
+  #docs <- read.documents("../data/1.corpus.txt")
+  docs <- read.documents("../data/0.new.corpus.txt")
   #docs <- read.documents("../data/sci90-mult.dat")
   #print(docs)
   print("Successfully read documents")
   #voc <- readLines("../data/allTasks.vocab.txt")
-  voc <- readLines("../data/1.vocab.txt")
+  #voc <- readLines("../data/1.vocab.txt")
+  voc <- readLines("../data/0.new.vocab.txt")
   #voc <- readLines("../data/sci90-vocab.dat")
   print("Successfully read vocab")
-  dat <- corpus.to.matrix(docs[0:100], voc)
+  dat <- corpus.to.matrix(docs[0:1000], voc)
   print("Successfully converted corpus to matrix")
   #mat = read.table('../data/allTasks.distances.txt')
   #mat = read.table('../data/1.distances.txt')
-  mat = read.table('../data/1.distances.embeddings_old.txt')
+  #mat = read.table('../data/1.distances.embeddings_old.txt')
+  mat = read.table('../data/0.new.distances.embeddings.txt')
   #mat = 5-mat
   #mat = 1+mat
   #mat = mat/apply(mat,1,max)
@@ -156,7 +159,7 @@ sequential.example <- function ()
   #mat = 4-(4*mat)
   #print (mat)
   print("Successfully read distances table")
-  res <- ddcrp.gibbs(dat=dat[0:100,], dist.fn=matrix.dist.fn(mat), alpha=0.1,
+  res <- ddcrp.gibbs(dat=dat[0:1000,], dist.fn=matrix.dist.fn(mat), alpha=0,
     #res <- ddcrp.gibbs(dat=dat[1:24,], dist.fn=seq.dist, alpha=1,
                      decay.fn=window.decay(0.2),
                      doc.lhood.fn(0.5), 1, summary.fn = ncomp.summary,clust.traj=TRUE, cust.traj=TRUE)
@@ -167,5 +170,6 @@ sequential.example <- function ()
   print (res)
   print (dim(res$map.state))
   clusters = res$map.state
-  write.table(clusters, file="../data/1.cluster.txt", row.names=FALSE, col.names=FALSE)
+  #write.table(clusters, file="../data/1.cluster.txt", row.names=FALSE, col.names=FALSE)
+  write.table(clusters, file="../data/0.new.cluster.txt", row.names=FALSE, col.names=FALSE)
 }
